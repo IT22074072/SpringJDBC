@@ -37,6 +37,17 @@ public class StudentRepo {
     public List<Student> findAll() {
         String sql = "select * from student";
 
+//        public List<Student> findAll() {
+//            String sql = "select * from student";
+//            return jdbc.query(sql, (rs, rowNum) -> {
+//                Student s = new Student();
+//                s.setRollNo(rs.getInt("rollno"));
+//                s.setName(rs.getString("name"));
+//                s.setMarks(rs.getInt("marks"));
+//                return s;
+//            });
+//        }
+
         RowMapper<Student> mapper = new RowMapper<Student>() {
             @Override
             public Student mapRow(ResultSet rs, int rowNum) throws SQLException { //mapRow will fetch the result set and let us to take those data and add them to the student object and return it
