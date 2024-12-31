@@ -3,8 +3,11 @@ package org.example.springjdbc.repo;
 import org.example.springjdbc.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +35,20 @@ public class StudentRepo {
     }
 
     public List<Student> findAll() {
-        List<Student> students = new ArrayList<>();
-        return students;
+        String sql = "select * from student";
+
+        RowMapper<Student> mapper = new RowMapper<Student>() {
+            @Override
+            public Student mapRow(ResultSet rs, int rowNum) throws SQLException { //mapRow will fetch the result set and let us to take those data and add them to the student object and return it
+
+                Student s = new Student();
+                s.setRollNo(rs.getInt("rollno"));
+                s.setName(rs.getString("name"));
+                s.setMarks(rs.getInt("marks"));
+                return s;
+            }
+        };
+
+        return jdbc.query(sql, mapper);
     }
 }
